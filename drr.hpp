@@ -2,8 +2,8 @@
 // Created by Long Gong on 11/5/16.
 //
 
-#ifndef DRR_DRR_H
-#define DRR_DRR_H
+#ifndef DRR_HPP
+#define DRR_HPP
 
 #include <iostream>
 #include <vector>
@@ -13,8 +13,7 @@
 #include <limits>
 #include <list>
 
-#include "Packet.hpp"
-#include "PacketAPIs.hpp"
+#include "packetAPIs.hpp"
 
 
 class Drr {
@@ -81,9 +80,6 @@ public:
             deficit_counter[i] = 0;
         }
     }
-
-
-
 
 };
 

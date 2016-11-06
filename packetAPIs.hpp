@@ -65,5 +65,8 @@ public:
         }
         return f[pkt];
     }
+    unsigned size() const {
+      return next_flow_id;
+    }
 };
 #endif
