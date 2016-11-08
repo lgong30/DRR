@@ -5,13 +5,14 @@
 
 #include "../drr.hpp"
 #include <iomanip>
+#include <sstream>
 #include <random>
 
 
 
 /* parameters */
 const double offset = 1051196402.165037; // start time
-const int quantum = static_cast<int>(19895.892835117); // quantum for drr in bytes/10us
+const int quantum = static_cast<int>(198.958928351); // quantum for drr in bytes/10us
 const double len_per_time_slot = 10 * (1e-6); // time slot length 10 us
 
 const int measure_start_ts = static_cast<int>(1800 / len_per_time_slot); // when to start sampling
@@ -46,7 +47,19 @@ inline void write_header(std::ostream& os, std::vector<double>& timeouts){
        << std::setw(15)
        << std::left
        << "DRR";
-    for (int i = 0;i < timeouts.size();++ i) os << std::setw(30) << std::left << "flow_active_time_out_" << timeouts[i];
+
+    std::string temp;
+    for (int i = 0;i < timeouts.size();++ i) {
+        std::stringstream ss;
+        ss << "flow_active_time_out_" << timeouts[i];
+
+        ss >> temp;
+
+        os << std::setw(30)
+           << std::left
+           << temp;
+    }
+
 
     os << std::endl;
 }
@@ -79,7 +92,7 @@ int main(int argc, char* argv[]) {
     // sampling prepare
     std::default_random_engine generator;
     std::uniform_real_distribution<double> distribution(0.0,1.0);
-    double sample_rate = number_measures / (total_num_ts - measure_start_ts);
+    double sample_rate = number_measures * 1.0 / (total_num_ts - measure_start_ts);
     int cur_sample_id = 0;
 
 
@@ -116,7 +129,7 @@ int main(int argc, char* argv[]) {
                        << std::left
                        << cur_time_slot
                        << std::setw(15)
-                       << sch_drr.backlogged_flow_numer();
+                       << sch_drr.backlogged_flow_number();
 
                     for (auto timeout: timeouts){
                         os << std::setw(30)

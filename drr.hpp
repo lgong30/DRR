@@ -20,6 +20,7 @@
 class Drr {
 public:
     typedef std::queue<std::shared_ptr<Packet> > Queue;
+
     std::unordered_map<int, int> deficit_counter;
     std::vector<int> active_list;
     int quantum;
@@ -29,6 +30,7 @@ public:
 
     Flows flows;
     std::unordered_map<int /*flow id*/, Queue> queues;
+//    std::unordered_map<int /*flow id*/, int> queues;
 
     Drr(int Q): deficit_counter(), active_list(),\
     quantum(Q), active_flows(), flows(), queues() {}
@@ -39,7 +41,10 @@ public:
         int i = flows.extract_flow_id(pkt);// flow id
 
         if (active_flows.count(i) == 0) {// not exists
-            if (queues.find(i) == queues.end()) queues[i] = Queue();
+            if (queues.find(i) == queues.end()) {
+                queues[i] = Queue();
+//                queues[i] = 0;
+            }
 
             active_list.push_back(i);
             active_flows.insert(i);
@@ -48,6 +53,7 @@ public:
         }
 
         queues[i].push(std::make_shared<Packet>(pkt));
+//        ++ queues[i];
 
     }
 
@@ -58,16 +64,17 @@ public:
         int i = active_list[0];
 
         active_list.erase(active_list.begin());
-
         active_flows.erase(i);
 
 
         deficit_counter[i] += quantum;
 
-        while (deficit_counter[i] > 0 && (~queues[i].empty())) {
+        while (deficit_counter[i] > 0 && (!queues[i].empty())) {
+//        while (deficit_counter[i] > 0 && (queues[i] > 0)) {
             int pkt_size = queues[i].front()->size();
             if (pkt_size <= deficit_counter[i]) {
                 queues[i].pop();
+//                -- queues[i];
                 deficit_counter[i] -= pkt_size;
             } else {
                 break;
@@ -75,13 +82,14 @@ public:
         }
 
         if (!queues[i].empty()) {
+//        if (queues[i] > 0) {
             active_list.push_back(i);
             active_flows.insert(i);
         } else {
             deficit_counter[i] = 0;
         }
     }
-    int backlogged_flow_numer() const{
+    int backlogged_flow_number() const{
         return active_list.size();
     }
 
