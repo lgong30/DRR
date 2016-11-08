@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include <limits>
 #include <list>
+#include <memory>
 
 #include "packetAPIs.hpp"
 
@@ -46,7 +47,7 @@ public:
             deficit_counter[i] = 0;
         }
 
-        queues[i].push(std::make_shared(pkt));
+        queues[i].push(std::make_shared<Packet>(pkt));
 
     }
 
@@ -79,6 +80,9 @@ public:
         } else {
             deficit_counter[i] = 0;
         }
+    }
+    int backlogged_flow_numer() const{
+        return active_list.size();
     }
 
 };

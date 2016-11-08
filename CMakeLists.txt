@@ -11,6 +11,7 @@ project(DRR)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -Wall")
 
-set(SOURCE_FILES main.cpp drr.hpp packet.hpp packetAPIs.hpp)
+set(SOURCE_FILES drr.hpp packet.hpp packetAPIs.hpp)
 
 add_subdirectory(test)
+add_subdirectory(drr)

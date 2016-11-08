@@ -24,6 +24,8 @@ public:
     Packet(): src_ip(""), dst_ip(""), protocol('T'), src_port(0), dst_port(0), length(0), arrival_time(0) {}
     Packet(std::string& sip, std::string dip, char proto, unsigned sp, unsigned dp, unsigned len, double ats):\
     src_ip(sip), dst_ip(dip), protocol(proto), src_port(sp), dst_port(dp), length(len), arrival_time(ats) {}
+    Packet(const Packet& pkt):src_ip(pkt.src_ip), dst_ip(pkt.dst_ip), protocol(pkt.protocol), src_port(pkt.src_port),\
+                              dst_port(pkt.dst_port), length(pkt.length), arrival_time(pkt.arrival_time){}
 
     std::string to_string(bool only_ip=false) const{
         if (only_ip) return src_ip + dst_ip;
