@@ -66,14 +66,14 @@ inline void write_header(std::ostream& os, std::vector<double>& timeouts){
 
 int main(int argc, char* argv[]) {
     // trace
-    std::string trace = "D:\\data-sets\\traces\\UNC.FULL";
+    std::string trace = (argc == 2?"/home/longgong/git-reps/test-data/UNC_first_10000_lines.txt":"D:\\data-sets\\traces\\UNC.FULL");
     std::ifstream is(trace, std::ios_base::in);
 
     skip_header_lines(is);// skip header line
 
 
     // output file
-    std::string trace_mout = "D:\\data-sets\\traces\\UNC_DRR.txt";
+    std::string trace_mout = (argc == 2?"/home/longgong/git-reps/test-data/UNC_first_10000_lines_DRR.txt":"D:\\data-sets\\traces\\UNC_DRR.txt");
     std::ofstream os(trace_mout, std::ios_base::out);
 
     write_header(os, timeouts);
@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
     // sampling prepare
     std::default_random_engine generator;
     std::uniform_real_distribution<double> distribution(0.0,1.0);
-    double sample_rate = number_measures * 1.0 / (total_num_ts - measure_start_ts);
+    double sample_rate = (argc == 2? 0.1:number_measures / (total_num_ts - measure_start_ts));
     int cur_sample_id = 0;
 
 
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
             next_schedule_time += len_per_time_slot;// update next schedule time
             sch_drr.dequeue();
 
-            if (cur_time_slot >= measure_start_ts && cur_sample_id < number_measures){
+            if (cur_time_slot >= (argc == 2?100:measure_start_ts) && cur_sample_id < number_measures){
                 if (distribution(generator) < sample_rate){// recording
                     std::cout << "start recording ..." << std::endl;
 
