@@ -116,6 +116,7 @@ int main(int argc, char* argv[]) {
 
         if (pkt.arrival_time > next_schedule_time){// do scheduling
             ++ cur_time_slot;
+            next_schedule_time += len_per_time_slot;// update next schedule time
             sch_drr.dequeue();
 
             if (cur_time_slot >= measure_start_ts && cur_sample_id < number_measures){
@@ -144,7 +145,7 @@ int main(int argc, char* argv[]) {
             }
 
             next_schedule_time += len_per_time_slot;// update next schedule time
-            ++ cur_time_slot; // update time slot
+//            ++ cur_time_slot; // update time slot
         }
 
         sch_drr.enqueue(pkt);// enqueue packet
