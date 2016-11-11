@@ -17,13 +17,13 @@ const int quantum = static_cast<int>(198.958928351); // quantum for drr in bytes
 // const int quantum = static_cast<int>(223.8287944); // quantum for drr in bytes/10us  approximate load = 0.8
 const double len_per_time_slot = 10 * (1e-6); // time slot length 10 us
 
-const int measure_start_ts = static_cast<int>(1800 / len_per_time_slot); // when to start sampling
+const int measure_start_ts = static_cast<int>(1000 / len_per_time_slot); // when to start sampling
 // const int measure_start_ts = static_cast<int>(200 / len_per_time_slot); // when to start sampling
 const int total_num_ts = 2 * measure_start_ts;// total number of time slots (approximated value)
 
 
 const int number_measures = 1000;
-std::vector<double> timeouts = {120, 10, 1, 0.5, 0.2, 0.1, 0.02, 0.001, 0.0005};
+std::vector<double> timeouts = {64, 32, 1, 0.1, 0.02, 0.001, 0.0005};
 
 
 inline long measure_active_flow(std::unordered_map<long, double>& flows, double current_time, double timeout){
