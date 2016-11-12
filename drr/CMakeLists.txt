@@ -2,7 +2,7 @@ set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
 
-set(SOURCE_FILES drr_measure.cpp)
+set(SOURCE_FILES drr_measure.cpp drr_churning_rate.cpp)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
 
 find_package(Boost COMPONENTS system REQUIRED)
